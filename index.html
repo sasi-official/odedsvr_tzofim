@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#000000">
+  <title>OdedSVR — Kick Live Viewers</title>
+  <style>
+    :root { color-scheme: dark; }
+
+    *, *::before, *::after { box-sizing: border-box; }
+
+    html, body {
+      width: 100%;
+      height: 100%;
+      margin: 0;
+      overflow: hidden;
+      background: transparent;
+    }
+
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    /* The same dark translucent, rounded look as the BotRix counter. */
+    .counter {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      min-height: 60px;
+      max-width: 100%;
+      padding: 8px 13px;
+      border-radius: 12px;
+      background: rgba(1, 1, 1, 0.50);
+      color: white;
+      user-select: none;
+      white-space: nowrap;
+    }
+
+    .kick-icon {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+      flex: none;
+    }
+
+    /*
+      GitHub Pages cannot safely hold a Kick API client secret, and Kick's
+      authenticated API is not directly accessible from a static page.
+      This iframe uses KickHex's public, self-updating viewer-count widget.
+      The viewport reveals the count, while our own frame provides the
+      original BotRix-like presentation. The upstream source may change its
+      layout in the future, in which case the crop offsets need updating.
+    */
+    .count-crop {
+      position: relative;
+      display: block;
+      overflow: hidden;
+      width: 165px;
+      height: 46px;
+      flex: 0 0 165px;
+      isolation: isolate;
+    }
+
+    .count-source {
+      position: absolute;
+      left: -85px;
+      top: -35px;
+      width: 340px;
+      height: 110px;
+      padding: 0;
+      border: 0;
+      background: transparent;
+      pointer-events: none;
+      mix-blend-mode: screen;
+      filter: grayscale(1) contrast(1.7);
+    }
+
+    @media (max-width: 240px) {
+      .counter { gap: 5px; padding: 4px 6px; }
+      .kick-icon { width: 26px; height: 26px; }
+      .count-crop { width: 145px; flex-basis: 145px; }
+    }
+  </style>
+</head>
+<body>
+  <main class="counter" aria-label="OdedSVR live viewers on Kick">
+    <img
+      class="kick-icon"
+      src="https://botrix.live/widgets/viewers/kickIcon.png"
+      alt="Kick"
+      width="32"
+      height="32"
+    >
+    <div class="count-crop">
+      <iframe
+        class="count-source"
+        src="https://kickhex.net/embed/counter/odedsvr?metric=viewers"
+        title="OdedSVR live viewer count"
+        loading="eager"
+        scrolling="no"
+        referrerpolicy="no-referrer"
+      ></iframe>
+    </div>
+  </main>
+</body>
+</html>
